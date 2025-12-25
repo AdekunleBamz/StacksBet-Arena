@@ -74,8 +74,9 @@ const Header = ({ userData, userAddress, isConnecting, onConnect, onDisconnect }
           </button>
         </div>
 
-        {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-arena-purple/20">
+        <div className={`md:hidden py-4 border-t border-arena-purple/20 transition-all duration-300 ease-in-out ${
+          mobileMenuOpen ? 'opacity-100 max-h-96' : 'opacity-0 max-h-0 overflow-hidden'
+        }`}>
             <nav className="flex flex-col space-y-4">
               <a href="#markets" className="text-gray-300 hover:text-white transition-colors">Markets</a>
               <a href="#leaderboard" className="text-gray-300 hover:text-white transition-colors">Leaderboard</a>
@@ -97,8 +98,7 @@ const Header = ({ userData, userAddress, isConnecting, onConnect, onDisconnect }
                 </button>
               )}
             </nav>
-          </div>
-        )}
+        </div>
       </div>
     </header>
   )
