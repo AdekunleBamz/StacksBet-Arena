@@ -207,7 +207,10 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {isLoadingMarkets && (
-          <div className="glass-card rounded-2xl p-6 text-gray-400">Loading markets…</div>
+          <div className="glass-card rounded-2xl p-6 text-gray-400 flex items-center justify-center gap-3">
+            <div className="spinner w-6 h-6" />
+            Loading markets…
+          </div>
         )}
         {filteredMarkets.map(market => {
           const odds = getOdds(market)
