@@ -8,6 +8,8 @@ import MarketList from './components/MarketList'
 import CreateMarket from './components/CreateMarket'
 import Leaderboard from './components/Leaderboard'
 import Footer from './components/Footer'
+import WalletConnectQRModal from './components/WalletConnectQRModal'
+import { WalletProvider, useWallet } from './context/WalletContext'
 
 import { CONFIG, assertFrontendConfig } from './lib/config'
 
@@ -22,11 +24,11 @@ const CONTRACT_NAME = CONFIG.contractName
 const appConfig = new AppConfig(['store_write', 'publish_data'])
 const userSession = new UserSession({ appConfig })
 
-function App() {
+function AppContent() {
+  const { userData, isConnecting, showQRModal, wcUri, connectWallet, disconnectWallet, closeQRModal } = useWallet()
+
   const [activeTab, setActiveTab] = useState('markets')
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [userData, setUserData] = useState(null)
-  const [isConnecting, setIsConnecting] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -37,26 +39,6 @@ function App() {
       } catch (e) {
         console.error(e)
       }
-
-      try {
-        // IMPORTANT: after the wallet approves connect, Stacks Connect redirects back with an authResponse.
-        // If we don't handle the pending sign-in, the UI will look like it "never connected".
-        if (userSession.isSignInPending()) {
-          const data = await userSession.handlePendingSignIn()
-          if (!cancelled) setUserData(data)
-          // Clean up URL params/hash used during auth.
-          if (typeof window !== 'undefined') {
-            window.history.replaceState({}, document.title, window.location.pathname)
-          }
-          return
-        }
-
-        if (userSession.isUserSignedIn()) {
-          if (!cancelled) setUserData(userSession.loadUserData())
-        }
-      } catch (e) {
-        console.error('Stacks Connect init failed:', e)
-      }
     }
 
     init()
@@ -65,36 +47,8 @@ function App() {
     }
   }, [])
 
-  const connectWallet = () => {
-    setIsConnecting(true)
-    showConnect({
-      appDetails: {
-        name: 'StacksBet Arena',
-        icon: window.location.origin + '/logo.png',
-      },
-      redirectTo: '/',
-      onFinish: () => {
-        setUserData(userSession.loadUserData())
-        setIsConnecting(false)
-      },
-      onCancel: () => {
-        setIsConnecting(false)
-      },
-      userSession,
-    })
-  }
-
-  const disconnectWallet = () => {
-    userSession.signUserOut('/')
-    setUserData(null)
-  }
-
   const getUserAddress = () => {
-    if (!userData) return null
-    const stxAddress = userData.profile?.stxAddress
-    if (!stxAddress) return null
-    if (typeof stxAddress === 'string') return stxAddress
-    return stxAddress.mainnet || stxAddress.testnet || null
+    return userData?.address || null
   }
 
   return (
@@ -197,7 +151,21 @@ function App() {
           onConnect={connectWallet}
         />
       )}
+
+      <WalletConnectQRModal
+        isOpen={showQRModal}
+        onClose={closeQRModal}
+        wcUri={wcUri}
+      />
     </div>
+  )
+}
+
+function App() {
+  return (
+    <WalletProvider>
+      <AppContent />
+    </WalletProvider>
   )
 }
 
