@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { HiClock, HiUsers, HiCurrencyDollar, HiSearch } from 'react-icons/hi'
+import { HiClock, HiUsers, HiCurrencyDollar, HiSearch, HiHeart } from 'react-icons/hi'
 import { openContractCall } from '@stacks/connect'
 import { uintCV, standardPrincipalCV, PostConditionMode, makeStandardSTXPostCondition, FungibleConditionCode } from '@stacks/transactions'
 import toast from 'react-hot-toast'
@@ -16,6 +16,7 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
   const [filter, setFilter] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('newest')
+  const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites') || '[]'))
 
   const [markets, setMarkets] = useState([])
   const [tipHeight, setTipHeight] = useState(null)
@@ -199,6 +200,12 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
     }
   }
 
+  const toggleFavorite = (marketId) => {
+    const newFavorites = favorites.includes(marketId) ? favorites.filter(id => id !== marketId) : [...favorites, marketId]
+    setFavorites(newFavorites)
+    localStorage.setItem('favorites', JSON.stringify(newFavorites))
+  }
+
   return (
     <section id="markets" className="py-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
@@ -261,9 +268,12 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
                   <span className="category-badge px-3 py-1 rounded-full text-xs font-medium text-arena-purple">
                     {market.category}
                   </span>
-                  <div className="flex items-center gap-1 text-gray-400 text-sm">
+                  <div className="flex items-center gap-2 text-gray-400 text-sm">
                     <HiClock className="w-4 h-4" />
                     {getTimeRemaining(market.endBlock)}
+                    <button onClick={() => toggleFavorite(market.id)} className="hover:text-red-400 transition-colors">
+                      <HiHeart className={`w-4 h-4 ${favorites.includes(market.id) ? 'text-red-500 fill-current' : ''}`} />
+                    </button>
                   </div>
                 </div>
 
