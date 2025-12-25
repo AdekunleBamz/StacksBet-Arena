@@ -46,7 +46,7 @@ const Header = ({ userData, userAddress, isConnecting, onConnect, onDisconnect }
                   </div>
                   <p className="text-sm font-mono font-medium text-white">{truncateAddress(userAddress)}</p>
                 </div>
-                <button onClick={onDisconnect} className="btn-secondary px-4 py-2 rounded-xl text-sm font-medium hover:bg-red-500/20 hover:border-red-500/50 transition-all">
+                <button onClick={onDisconnect} className="btn-secondary px-4 py-2 rounded-xl text-sm font-medium hover:bg-red-500/20 hover:border-red-500/50 transition-all" title="Disconnect wallet">
                   Disconnect
                 </button>
               </div>
@@ -55,6 +55,7 @@ const Header = ({ userData, userAddress, isConnecting, onConnect, onDisconnect }
                 onClick={onConnect}
                 disabled={isConnecting}
                 className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-purple-500/25 transition-all"
+                title="Connect your wallet to start betting"
               >
                 {isConnecting ? (
                   <><div className="spinner w-4 h-4" />Connecting...</>
