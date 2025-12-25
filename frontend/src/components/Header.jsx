@@ -28,10 +28,10 @@ const Header = ({ userData, userAddress, isConnecting, onConnect, onDisconnect }
           </div>
 
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#markets" className="text-gray-300 hover:text-white transition-colors">Markets</a>
-            <a href="#leaderboard" className="text-gray-300 hover:text-white transition-colors">Leaderboard</a>
-            <a href="https://docs.stacks.co" target="_blank" rel="noopener noreferrer" 
-               className="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+            <a href="#markets" className="text-gray-300 hover:text-white hover:underline transition-all duration-200">Markets</a>
+            <a href="#leaderboard" className="text-gray-300 hover:text-white hover:underline transition-all duration-200">Leaderboard</a>
+            <a href="https://docs.stacks.co" target="_blank" rel="noopener noreferrer"
+               className="text-gray-300 hover:text-white hover:underline transition-all duration-200 flex items-center gap-1">
               Docs <FiExternalLink className="w-3 h-3" />
             </a>
           </nav>
