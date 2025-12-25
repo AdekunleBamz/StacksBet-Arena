@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { HiClock, HiUsers, HiCurrencyDollar } from 'react-icons/hi'
+import { HiClock, HiUsers, HiCurrencyDollar, HiSearch } from 'react-icons/hi'
 import { openContractCall } from '@stacks/connect'
 import { uintCV, standardPrincipalCV, PostConditionMode, makeStandardSTXPostCondition, FungibleConditionCode } from '@stacks/transactions'
 import toast from 'react-hot-toast'
@@ -14,6 +14,7 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
   const [betSide, setBetSide] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [filter, setFilter] = useState('all')
+  const [searchTerm, setSearchTerm] = useState('')
 
   const [markets, setMarkets] = useState([])
   const [tipHeight, setTipHeight] = useState(null)
@@ -118,9 +119,15 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
   }, [contractAddress, contractName, filterUserBets, network, userAddress])
 
   const filteredMarkets = useMemo(() => {
-    if (filter === 'all') return markets
-    return markets.filter((m) => m.category.toLowerCase() === filter)
-  }, [filter, markets])
+    let filtered = markets
+    if (filter !== 'all') {
+      filtered = filtered.filter((m) => m.category.toLowerCase() === filter)
+    }
+    if (searchTerm) {
+      filtered = filtered.filter((m) => m.title.toLowerCase().includes(searchTerm.toLowerCase()))
+    }
+    return filtered
+  }, [filter, markets, searchTerm])
 
   const getOdds = (market) => {
     const yesPool = market.yesPoolMicro / 1_000_000
@@ -203,6 +210,17 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="relative mb-6">
+        <HiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search markets..."
+          className="input-field w-full pl-10 pr-4 py-3 rounded-xl text-white"
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
