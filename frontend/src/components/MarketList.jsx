@@ -15,6 +15,7 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
   const [isLoading, setIsLoading] = useState(false)
   const [filter, setFilter] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
+  const [sortBy, setSortBy] = useState('newest')
 
   const [markets, setMarkets] = useState([])
   const [tipHeight, setTipHeight] = useState(null)
@@ -126,8 +127,16 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
     if (searchTerm) {
       filtered = filtered.filter((m) => m.title.toLowerCase().includes(searchTerm.toLowerCase()))
     }
+    // Sort
+    if (sortBy === 'ending-soon') {
+      filtered.sort((a, b) => a.endBlock - b.endBlock)
+    } else if (sortBy === 'newest') {
+      filtered.sort((a, b) => b.id - a.id)
+    } else if (sortBy === 'volume') {
+      filtered.sort((a, b) => (b.yesPoolMicro + b.noPoolMicro) - (a.yesPoolMicro + a.noPoolMicro))
+    }
     return filtered
-  }, [filter, markets, searchTerm])
+  }, [filter, markets, searchTerm, sortBy])
 
   const getOdds = (market) => {
     const yesPool = market.yesPoolMicro / 1_000_000
@@ -212,15 +221,26 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
         </div>
       </div>
 
-      <div className="relative mb-6">
-        <HiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search markets..."
-          className="input-field w-full pl-10 pr-4 py-3 rounded-xl text-white"
-        />
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <div className="relative flex-1">
+          <HiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search markets..."
+            className="input-field w-full pl-10 pr-4 py-3 rounded-xl text-white"
+          />
+        </div>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="input-field px-4 py-3 rounded-xl text-white bg-transparent min-w-[180px]"
+        >
+          <option value="newest">Newest First</option>
+          <option value="ending-soon">Ending Soon</option>
+          <option value="volume">Highest Volume</option>
+        </select>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
