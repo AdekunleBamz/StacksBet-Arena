@@ -271,7 +271,7 @@ const MarketList = ({ userData, userAddress, userSession, network, contractAddre
                   <div className="flex items-center gap-2 text-gray-400 text-sm">
                     <HiClock className="w-4 h-4" />
                     {getTimeRemaining(market.endBlock)}
-                    <button onClick={() => toggleFavorite(market.id)} className="hover:text-red-400 transition-colors">
+                    <button onClick={() => toggleFavorite(market.id)} className="hover:text-red-400 transition-colors" title={favorites.includes(market.id) ? 'Remove from favorites' : 'Add to favorites'}>
                       <HiHeart className={`w-4 h-4 ${favorites.includes(market.id) ? 'text-red-500 fill-current' : ''}`} />
                     </button>
                   </div>
