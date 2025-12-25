@@ -15,7 +15,7 @@ const Header = ({ userData, userAddress, isConnecting, onConnect, onDisconnect }
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-arena-purple to-arena-pink flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-arena-purple to-arena-pink flex items-center justify-center hover:scale-110 transition-transform duration-200">
               <HiOutlineLightningBolt className="w-6 h-6 text-white" />
             </div>
             <div>
