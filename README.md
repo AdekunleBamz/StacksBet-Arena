@@ -152,6 +152,45 @@ const REOWN_PROJECT_ID = 'YOUR_REOWN_PROJECT_ID'
 - `OUTCOME-NO (2)` - The prediction did not come true
 - `OUTCOME-INVALID (3)` - Market was cancelled/invalid (refunds issued)
 
+
+
+---
+
+## 📦 @stacks/connect & @stacks/transactions Integration
+
+This project uses official Stacks JavaScript libraries for blockchain interaction.
+
+### @stacks/connect Usage
+
+Handles wallet authentication and transaction signing via `openContractCall`:
+
+- **CreateMarket.jsx** - Creates prediction markets with STX post conditions
+- **MarketList.jsx** - Places bets on markets with user signing
+- **App.jsx** - Wallet connection flow
+
+### @stacks/transactions Usage
+
+Handles Clarity values, post conditions, and read-only calls:
+
+| Import | Purpose |
+|--------|---------|
+| `uintCV`, `stringUtf8CV`, `stringAsciiCV` | Clarity value types |
+| `PostConditionMode`, `FungibleConditionCode` | Transaction safety |
+| `makeStandardSTXPostCondition` | Limit STX transfers |
+| `callReadOnlyFunction`, `cvToJSON` | Query contract state |
+
+### Integration Files
+
+| File | Libraries Used |
+|------|----------------|
+| `src/components/CreateMarket.jsx` | @stacks/connect, @stacks/transactions |
+| `src/components/MarketList.jsx` | @stacks/connect, @stacks/transactions |
+| `src/lib/contract.js` | @stacks/transactions |
+| `src/lib/stacks.js` | @stacks/transactions |
+| `src/lib/hiro.js` | @stacks/transactions |
+| `frontend/create-market.js` | @stacks/transactions |
+| `frontend/place-bet.js` | @stacks/transactions |
+
 ## 🔗 Links
 
 - **GitHub**: [github.com/AdekunleBamz](https://github.com/AdekunleBamz)
