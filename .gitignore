@@ -20,3 +20,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# Sensitive script files - do not commit with real credentials
+frontend/place-bet.js
+frontend/create-market.js
+scripts/create-market.js
