@@ -1,5 +1,8 @@
 # ⚡ StacksBet Arena
 
+[![Contracts CI](https://github.com/AdekunleBamz/StacksBet-Arena/actions/workflows/contracts.yml/badge.svg)](https://github.com/AdekunleBamz/StacksBet-Arena/actions/workflows/contracts.yml)
+[![Frontend CI](https://github.com/AdekunleBamz/StacksBet-Arena/actions/workflows/frontend.yml/badge.svg)](https://github.com/AdekunleBamz/StacksBet-Arena/actions/workflows/frontend.yml)
+
 **Decentralized Prediction Markets on Stacks**
 
 Built with **Reown AppKit** for the Stacks Builder Challenge #3
